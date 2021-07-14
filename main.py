@@ -5,11 +5,19 @@ import math
 
 def main():
     puzzle = CreateBoard()
-    displayPuzzle()
+    displayPuzzle(puzzle)
     return
     # use this function to execute the code
 
-def displayPuzzle():
+def displayPuzzle(puzzle):
+    char = []
+    for row in puzzle:
+        for num in row:
+            if num == 10:
+                print('-')
+            else:
+                print(num)
+        print('\n')        
     return
 
 def CreateBoard():
@@ -24,11 +32,13 @@ def CreateBoard():
                 board[i][j] = 10
     # gets a random position on the board to place a number between 1 and 9
     amount = int(input("Enter how many numbers you want to start of with: "))
+    if amount >= 38:
+        amount = int(input("Please enter number below 38: "))
     pos = []
     while amount > 0:
-        row = np.random.randint(low = 1, high = 9)
-        col = np.random.randint(low = 1, high = 9)
-        num = np.random.randint(9)
+        row = np.random.randint(low = 1, high = 10)
+        col = np.random.randint(low = 1, high = 10)
+        num = np.random.randint(low = 1, high = 10)
         match = False
         for pair in pos:
             if pair == [row,col]:
