@@ -6,9 +6,32 @@ import math
 def main():
     puzzle = CreateBoard()
     displayPuzzle(puzzle)
+    boo = input("Would you like this puzzle to be solved? : ")
+    if boo == "Yes":
+        solveSudoku(puzzle)
     return
     # use this function to execute the code
+def solveSudoku(puzzle):
+    nums = [1,2,3,4,5,6,7,8,9]
+    Solved = False
+    index = -1
+    Allowed = True
+    for i in range(1, len(puzzle) - 1):
+        for j in range(1, len(puzzle) - 1):
+            if puzzle[i][j] == 0:
+                while not Solved:
+                    num = nums[index]
+                    while Allowed:
+                        for k in range(1,9):
+                            if (puzzle[i][k] == num) or (puzzle[k][j] == num):
+                                Allowed = False
 
+                        rowpos = math.ceil(i / 3)
+                        colpos = math.ceil(j / 3)
+                        grid = puzzle[(rowpos * 3) - 2 : (rowpos * 3) + 1][(colpos * 3) - 2 : ((colpos*3) + 1)]
+                        
+
+    return
 def displayPuzzle(puzzle):
     for row in range(1,len(puzzle)):
         s = ''
@@ -38,8 +61,7 @@ def CreateBoard():
                 board[i][j] = 10
     # gets a random position on the board to place a number between 1 and 9
     amount = int(input("Enter how many numbers you want to start of with: "))
-    if amount >= 38:
-        amount = int(input("Please enter number below 38: "))
+    
     pos = []
     while amount > 0:
         row = np.random.randint(low = 1, high = 10)
