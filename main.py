@@ -10,14 +10,20 @@ def main():
     # use this function to execute the code
 
 def displayPuzzle(puzzle):
-    char = []
-    for row in puzzle:
-        for num in row:
-            if num == 10:
-                print('-')
-            else:
-                print(num)
-        print('\n')        
+    for row in range(1,len(puzzle)):
+        s = ''
+        if ((row - 1) % 3 == 0):
+            s+= '- ' * 11
+            s+= '\n'
+        for col in range(1,len(puzzle) - 1):
+            if row != 0 and row != 10:
+                if puzzle[row][col] == 10:
+                    s+= '| '
+                if col % 3 == 0 and col != 9:
+                    s+= str(int(puzzle[row][col])) + ' | '
+                else:
+                    s+= str(int(puzzle[row][col])) + ' '
+        print(s)
     return
 
 def CreateBoard():
@@ -45,7 +51,7 @@ def CreateBoard():
                 row = 0
                 col = 0
                 match = True
-                num = 0
+                num = 10
         if match == False:
             pos.append([row,col])
         
