@@ -11,27 +11,54 @@ def main():
         solveSudoku(puzzle)
     return
     # use this function to execute the code
+
 def solveSudoku(puzzle):
     nums = [1,2,3,4,5,6,7,8,9]
-    Solved = False
-    index = -1
-    Allowed = True
-    for i in range(1, len(puzzle) - 1):
-        for j in range(1, len(puzzle) - 1):
-            if puzzle[i][j] == 0:
-                while not Solved:
-                    num = nums[index]
-                    while Allowed:
-                        for k in range(1,9):
-                            if (puzzle[i][k] == num) or (puzzle[k][j] == num):
-                                Allowed = False
-
-                        rowpos = math.ceil(i / 3)
-                        colpos = math.ceil(j / 3)
-                        grid = puzzle[(rowpos * 3) - 2 : (rowpos * 3) + 1][(colpos * 3) - 2 : ((colpos*3) + 1)]
-                        
-
+    pos = []
+    notSolved = True
+    i = 1
+    j = 1
+    solve_count = 0
+    # loops through whole puzzle
+    while notSolved and i < 10:
+        if j == 10:
+            j = 0
+            i += 1
+        if puzzle[i][j] != 0:
+            j += 1
+        if puzzle[i][j] == 0:
+            pos.append((i,j))
+            Solved = False
+            index = 0
+            while not Solved:
+                if index == 9:
+                    problemSolve(puzzle, i , j, pos, solve_count)
+                    
+                num = nums[index]
+                if Allowed(puzzle, i, j, num) == True:
+                    puzzle[i][j] = num
+                    Solved = True
+                    displayPuzzle(puzzle)
+                    solve_count += 1
+                else:
+                    index += 1
     return
+
+def problemSolve(puzzle, i, j, pos, solve_count):
+    return            
+def Allowed(puzzle, i, j, num):
+    Allow = True
+    for k in range(1,10):
+        if (puzzle[i][k] == num) or (puzzle[k][j] == num):
+            Allow = False
+        rowpos = math.ceil(i / 3)
+        colpos = math.ceil(j / 3)
+        rows = puzzle[(rowpos * 3) - 2 : (rowpos * 3) + 1]
+        for row in rows:
+            if num in row[(colpos * 3) - 2 : (colpos * 3) + 1]:
+                Allow = False
+    return Allow
+
 def displayPuzzle(puzzle):
     for row in range(1,len(puzzle)):
         s = ''
@@ -85,7 +112,7 @@ def CreateBoard():
             for k in range((colpos*3),((colpos*3) - 3), -1):
                 if board[j][k] == num:
                     num = 0
-        for i in range(1,9):
+        for i in range(1,10):
             if board[row][i] == num:
                 num = 0
             if board[i][col] == num:
