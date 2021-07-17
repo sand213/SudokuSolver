@@ -18,11 +18,10 @@ def solveSudoku(puzzle):
     notSolved = True
     i = 1
     j = 1
-    solve_count = 0
     # loops through whole puzzle
     while notSolved and i < 10:
         if j == 10:
-            j = 0
+            j = 1
             i += 1
         if puzzle[i][j] != 0:
             j += 1
@@ -30,22 +29,42 @@ def solveSudoku(puzzle):
             pos.append((i,j))
             Solved = False
             index = 0
+            num = 0
             while not Solved:
-                if index == 9:
-                    problemSolve(puzzle, i , j, pos, solve_count)
-                    
+                if num == 9 and (Solved is False):
+                    pos.pop(-1)
+                    problemSolve(puzzle, i , j, pos)
+                    pos.append((i,j))
+                    index = 0
                 num = nums[index]
                 if Allowed(puzzle, i, j, num) == True:
                     puzzle[i][j] = num
                     Solved = True
                     displayPuzzle(puzzle)
-                    solve_count += 1
                 else:
                     index += 1
     return
 
-def problemSolve(puzzle, i, j, pos, solve_count):
-    return            
+def problemSolve(puzzle, i, j, pos):
+    Solved = False
+    nums = [1,2,3,4,5,6,7,8,9]
+    i, j = pos[-1]
+    numbers = nums[int(puzzle[i][j])::]
+    while not Solved:
+        if len(numbers) == 0:
+            pos.pop(-1)
+            puzzle[i][j] = 0
+            displayPuzzle(puzzle)
+            problemSolve(puzzle, i, j, pos)
+            pos.append((i,j))
+            numbers = [1,2,3,4,5,6,7,8,9]
+        num = numbers.pop(0)
+        if Allowed(puzzle, i, j, num) == True:
+                puzzle[i][j] = num
+                Solved = True
+                displayPuzzle(puzzle)
+    return
+
 def Allowed(puzzle, i, j, num):
     Allow = True
     for k in range(1,10):
