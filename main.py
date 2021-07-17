@@ -52,7 +52,8 @@ def problemSolve(puzzle, i, j, pos):
     numbers = nums[int(puzzle[i][j])::]
     while not Solved:
         if len(numbers) == 0:
-            pos.pop(-1)
+            if len(pos) > 1:
+                pos.pop(-1)
             puzzle[i][j] = 0
             displayPuzzle(puzzle)
             problemSolve(puzzle, i, j, pos)
